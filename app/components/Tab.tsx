@@ -13,7 +13,7 @@ export default function Tab() {
     { id: "tab2", label: "Tab 2", content: "Content 2" },
   ]);
   const [activeTab, setActiveTab] = useState("tab1");
-  const [view, setView] = useState("style5"); 
+  const [view, setView] = useState<"style1" | "style2" | "style3" | "style4" | "style5" | "style6" | "style7" | "style8" | "style9" | "style10" | "style11" | "default">("style5"); 
 
   useEffect(() => {
     const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -25,13 +25,18 @@ export default function Tab() {
 
     const savedView = localStorage.getItem("position"); 
     if (savedView) {
-      setView(savedView);
+      if (["style1", "style2", "style3", "style4", "style5", "style6", "style7", "style8", "style9", "style10", "style11", "default"].includes(savedView)) {
+        setView(savedView as "style1" | "style2" | "style3" | "style4" | "style5" | "style6" | "style7" | "style8" | "style9" | "style10" | "style11" | "default");
+      }
     }
 
-    const handleStorageChange = () => {
-      const newView = localStorage.getItem("position");
+    const handleStorageChange = (event: StorageEvent) => {
+      const newView = event.newValue;
+      if (newView && ["style1", "style2", "style3", "style4", "style5", "style6", "style7", "style8", "style9", "style10", "style11", "default"].includes(newView)) {
+        setView(newView as "style1" | "style2" | "style3" | "style4" | "style5" | "style6" | "style7" | "style8" | "style9" | "style10" | "style11" | "default");
+      }
       if (newView) {
-        setView(newView);
+        setView(newView as "style1" | "style2" | "style3" | "style4" | "style5" | "style6" | "style7" | "style8" | "style9" | "style10" | "style11" | "default");
       }
     };
 
