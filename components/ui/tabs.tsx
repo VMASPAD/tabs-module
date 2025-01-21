@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { useDrag, useDrop } from "react-dnd";
 import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -65,7 +64,7 @@ const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> & {
     onAddTab?: () => void;
-    view?: string;
+    view?: keyof typeof styleClasses;
   }
 >(({ className, onAddTab, view = "style1", ...props }, ref) => {
   const styles = styleClasses[view] || styleClasses.default;
@@ -102,7 +101,7 @@ const TabsTrigger = React.forwardRef<
     onClose?: () => void;
     moveTab: (dragIndex: number, hoverIndex: number) => void;
     index: number;
-    view?: string;
+    view?: keyof typeof styleClasses;
   }
 >(({ className, onClose, moveTab, index, view = "style1", ...props }, ref) => {
   const styles = styleClasses[view] || styleClasses.default;
@@ -124,7 +123,9 @@ const TabsTrigger = React.forwardRef<
 
   return (
     <div
-      ref={(node) => dragRef(dropRef(node))}
+      ref={(node) => {
+        dragRef(dropRef(node));
+      }}
       className="relative group flex items-center space-x-2"
     >
       <TabsPrimitive.Trigger
